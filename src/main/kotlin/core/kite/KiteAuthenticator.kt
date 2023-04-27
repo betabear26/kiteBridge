@@ -1,19 +1,21 @@
 package core.kite
 
 import com.zerodhatech.kiteconnect.KiteConnect
+import core.util.EnvProvider
+import io.github.cdimascio.dotenv.Dotenv
 
 object KiteAuthenticator {
 
     private val apiKey by lazy {
-        "your_api_key"
+        EnvProvider.getEnvVar("API_KEY")
     }
 
     private val userId by lazy {
-        "your_user_id"
+        EnvProvider.getEnvVar("USER_ID")
     }
 
     private val apiSecret by lazy {
-        "your_api_secret"
+        EnvProvider.getEnvVar("API_SECRET")
     }
 
     private val accessToken by lazy {
