@@ -2,7 +2,7 @@ package core.kite
 
 import com.zerodhatech.kiteconnect.KiteConnect
 import core.util.EnvProvider
-import io.github.cdimascio.dotenv.Dotenv
+import kotlin.coroutines.CoroutineContext
 
 object KiteAuthenticator {
 
@@ -18,15 +18,11 @@ object KiteAuthenticator {
         EnvProvider.getEnvVar("API_SECRET")
     }
 
-    private val accessToken by lazy {
-        "your_access_token"
-    }
-
     private val kiteConnect: KiteConnect by lazy {
         KiteConnect(apiKey)
     }
 
-    fun getKiteConnect(): KiteConnect = kiteConnect
+    fun getKite(): KiteConnect = kiteConnect
 
     fun login(kiteListener: KiteListener): String = run {
         kiteListener.loggingIn()
@@ -35,6 +31,7 @@ object KiteAuthenticator {
     }
 
     fun authenticate(requestToken: String, kiteListener: KiteListener){
+        println("Authenticating with $requestToken...")
         val user = kiteConnect.generateSession(requestToken, apiSecret)
         kiteConnect.accessToken = user.accessToken
         kiteConnect.publicToken = user.publicToken

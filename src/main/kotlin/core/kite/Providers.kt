@@ -1,6 +1,6 @@
 package core.kite
 
-import core.kite.KiteAuthenticator.getKiteConnect
+import core.kite.KiteAuthenticator.getKite
 import com.zerodhatech.models.OrderParams
 import com.zerodhatech.ticker.KiteTicker
 import kotlin.random.Random
@@ -9,7 +9,7 @@ object Providers {
 
     object MarginProvider {
         fun getMargin(): String {
-            val kiteSdk = getKiteConnect()
+            val kiteSdk = getKite()
             val margins = kiteSdk.getMargins("equity")
             return margins.available.cash
         }
@@ -17,7 +17,7 @@ object Providers {
 
     object OrderProvider {
         fun placeOrder(orderParams: OrderParams, variety: String): String {
-            val kiteSdk = getKiteConnect()
+            val kiteSdk = getKite()
             val order = kiteSdk.placeOrder(orderParams, variety)
             return order.orderId
         }
@@ -62,13 +62,13 @@ object Providers {
 
         private lateinit var tickerProvider: KiteTicker
 
-        fun subscribe(tradingSymbol: Long, kiteListener: KiteListener) {
-            val kiteSdk = getKiteConnect()
+        fun subscribe(tradingSymbol: ArrayList<Long>, kiteListener: KiteListener) {
+            val kiteSdk = getKite()
             tickerProvider = KiteTicker(kiteSdk.accessToken, kiteSdk.apiKey)
             tickerProvider.setOnConnectedListener {
                 kiteListener.onTickerConnected()
-                tickerProvider.subscribe(arrayListOf(tradingSymbol))
-                tickerProvider.setMode(arrayListOf(tradingSymbol), KiteTicker.modeQuote)
+                tickerProvider.subscribe(tradingSymbol)
+                tickerProvider.setMode(tradingSymbol, KiteTicker.modeQuote)
             }
 
             tickerProvider.setOnDisconnectedListener {
@@ -89,8 +89,8 @@ object Providers {
             tickerProvider.connect()
         }
 
-        fun unsubscribe(tradingSymbol: Long) {
-            tickerProvider.unsubscribe(arrayListOf(tradingSymbol))
+        fun unsubscribe(tradingSymbol: ArrayList<Long>) {
+            tickerProvider.unsubscribe(tradingSymbol)
             tickerProvider.disconnect()
         }
 
@@ -99,7 +99,7 @@ object Providers {
     object TokenProvider {
 
         fun getInstrumentToken(tradingSymbol: String): Long {
-            val kiteSdk = getKiteConnect()
+            val kiteSdk = getKite()
             val instruments = kiteSdk.instruments
             return instruments.find { it.tradingsymbol == tradingSymbol }?.instrument_token ?: 0
         }
