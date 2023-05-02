@@ -1,8 +1,14 @@
+import com.google.gson.Gson
 import com.zerodhatech.models.Order
 import com.zerodhatech.models.Tick
 import com.zerodhatech.models.User
+import core.database.RedisDb
+import core.engine.manager.InstrumentManager
+import core.engine.manager.OrderManager
+import core.engine.manager.TickerManager
 import core.kite.KiteAuthenticator
 import core.kite.KiteListener
+import core.kite.Providers
 import java.awt.Desktop
 import java.net.URI
 import kotlin.system.exitProcess
@@ -12,6 +18,24 @@ fun main(args: Array<String>) {
     Main().init()
 }
 class Main: KiteListener {
+
+    private var tickerReconnectionCount: Int = 0
+    private val instrumentManager: InstrumentManager by lazy {
+        InstrumentManager()
+    }
+    private val tickerManager: TickerManager by lazy {
+        TickerManager()
+    }
+    private val orderManager:OrderManager by lazy {
+        OrderManager()
+    }
+    private val redis by lazy {
+        RedisDb()
+    }
+    private val gson by lazy {
+        Gson()
+    }
+
     fun init(){
         println("Initializing...")
         val url = KiteAuthenticator.login(this)
@@ -39,7 +63,10 @@ class Main: KiteListener {
     }
 
     override fun onKiteConnected(user: User) {
+        tickerReconnectionCount = 0
         println("Logged in as ${user.userName}")
+        redis.intervalDumpToInfluxDb(60L)
+        tickerManager.subscribeAll(this)
     }
 
     override fun onKiteDisconnected() {
@@ -48,15 +75,28 @@ class Main: KiteListener {
     }
 
     override fun onTickerConnected() {
+        println("Ticker connected")
     }
 
+
     override fun onTickerDisconnected() {
+        println("Ticker disconnected")
+        if(tickerReconnectionCount < 5){
+            println("Reconnecting...")
+            tickerReconnectionCount++
+            tickerManager.subscribeAll(this)
+        }
     }
 
     override fun onOrderUpdate(it: Order?) {
     }
 
     override fun onTickerArrival(it: ArrayList<Tick>?) {
+        if(it.isNullOrEmpty()){
+            println("Empty tick list received")
+            return
+        }
+        tickerManager.writeToRedis(it, gson, redis)
     }
 
 }

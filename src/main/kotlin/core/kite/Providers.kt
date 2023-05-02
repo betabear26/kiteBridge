@@ -98,11 +98,15 @@ object Providers {
 
     object TokenProvider {
 
-        fun getInstrumentToken(tradingSymbol: String): Long {
+        fun getInstrumentTokens(tradingSymbols: List<String>): List<Long> {
             val kiteSdk = getKite()
             val instruments = kiteSdk.instruments
-            return instruments.find { it.tradingsymbol == tradingSymbol }?.instrument_token ?: 0
+
+            return tradingSymbols.map { symbol ->
+                instruments.find { it.tradingsymbol == symbol }?.instrument_token ?: 0
+            }
         }
+
 
     }
 

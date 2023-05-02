@@ -21,5 +21,10 @@
       </library>
     </orderEntry>
     <orderEntry type="library" exported="" name="io.github.cdimascio.dotenv.kotlin" level="project" />
+    <orderEntry type="library" exported="" name="influxdb.client.core" level="project" />
+    <orderEntry type="library" exported="" name="io.lettuce.core" level="project" />
+    <orderEntry type="library" exported="" name="influxdb.client.kotlin" level="project" />
+    <orderEntry type="library" exported="" name="jetbrains.kotlinx.coroutines.core" level="project" />
+    <orderEntry type="library" exported="" name="google.code.gson" level="project" />
   </component>
 </module>
