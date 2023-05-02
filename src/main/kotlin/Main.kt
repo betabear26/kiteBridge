@@ -101,8 +101,7 @@ class Main: KiteListener {
         }
         it.forEach {
             println("${it.instrumentToken} -> ${it.lastTradedPrice} at ${dateFormat.format(it.tickTimestamp)}")
-            it.tickTimestamp = dateFormat.parse(dateFormat.format(it.tickTimestamp))
-            tickerManager.writeToRedis(it, gson, redis)
+            tickerManager.writeToRedis(it, gson, redis, dateFormat)
         }
     }
 
