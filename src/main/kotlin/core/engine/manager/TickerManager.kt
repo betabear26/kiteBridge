@@ -16,12 +16,12 @@ class TickerManager {
         const val BANK_NIFTY = "banknifty"
     }
 
-    val tickerMap = mutableMapOf(
+    private val tickerMap = mutableMapOf(
         Pair(NIFTY, "NIFTY 50"),
         Pair(BANK_NIFTY, "NIFTY BANK")
     )
 
-    val nextMonthName by lazy {
+    val nextMonthName: String by lazy {
         LocalDate.now().month.plus(1).getDisplayName(
             TextStyle.SHORT,
             Locale.ENGLISH
@@ -35,7 +35,7 @@ class TickerManager {
     }
 
     private fun getInstrumentTokens() {
-       val tokens = Providers.TokenProvider.getInstrumentTokens(
+        val tokens = Providers.TokenProvider.getInstrumentTokens(
             tickerMap.values.toList()
         )
         println("Received tokens - > $tokens}")
@@ -43,7 +43,7 @@ class TickerManager {
         tokenMap[tokens[1]] = BANK_NIFTY
     }
 
-    fun subscribeAll(listener: KiteListener){
+    fun subscribeAll(listener: KiteListener) {
         println("Subscribin to ${tokenMap.keys.toList()}}")
         Providers.TickerLiveDataProvider.subscribe(
             ArrayList(tokenMap.keys.toList()),
@@ -51,13 +51,20 @@ class TickerManager {
         )
     }
 
-    fun writeToRedis(tickers: List<Tick>, gson: Gson, redisDb: RedisDb){
+    fun writeToRedis(tickers: List<Tick>, gson: Gson, redisDb: RedisDb) {
         tickers.forEach {
             val key = "${tokenMap[it.instrumentToken]}:${it.tickTimestamp}"
             val value = gson.toJson(it)
             redisDb.set(key, value)
             println("Writing to redis: ${tokenMap[it.instrumentToken]} -> ${it.lastTradedPrice}")
         }
+    }
+
+    fun writeToRedis(ticker: Tick, gson: Gson, redisDb: RedisDb) {
+        val key = "${tokenMap[ticker.instrumentToken]}:${ticker.tickTimestamp}"
+        val value = gson.toJson(ticker)
+        redisDb.set(key, value)
+        println("Writing to redis: ${tokenMap[ticker.instrumentToken]} -> ${ticker.lastTradedPrice}")
     }
 
 }

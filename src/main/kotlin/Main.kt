@@ -1,4 +1,4 @@
-import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import com.zerodhatech.models.Order
 import com.zerodhatech.models.Tick
 import com.zerodhatech.models.User
@@ -8,9 +8,9 @@ import core.engine.manager.OrderManager
 import core.engine.manager.TickerManager
 import core.kite.KiteAuthenticator
 import core.kite.KiteListener
-import core.kite.Providers
 import java.awt.Desktop
 import java.net.URI
+import java.text.SimpleDateFormat
 import kotlin.system.exitProcess
 
 
@@ -19,6 +19,7 @@ fun main(args: Array<String>) {
 }
 class Main: KiteListener {
 
+    private val dateFormat = SimpleDateFormat("ddMMMyyyy:HHmmss")
     private var tickerReconnectionCount: Int = 0
     private val instrumentManager: InstrumentManager by lazy {
         InstrumentManager()
@@ -33,7 +34,9 @@ class Main: KiteListener {
         RedisDb()
     }
     private val gson by lazy {
-        Gson()
+        GsonBuilder()
+            .setDateFormat("ddMMMyyyy:HHmmss")
+            .create()
     }
 
     fun init(){
@@ -96,7 +99,11 @@ class Main: KiteListener {
             println("Empty tick list received")
             return
         }
-        tickerManager.writeToRedis(it, gson, redis)
+        it.forEach {
+            println("${it.instrumentToken} -> ${it.lastTradedPrice} at ${dateFormat.format(it.tickTimestamp)}")
+            it.tickTimestamp = dateFormat.parse(dateFormat.format(it.tickTimestamp))
+            tickerManager.writeToRedis(it, gson, redis)
+        }
     }
 
 }
