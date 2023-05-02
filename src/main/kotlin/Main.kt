@@ -57,7 +57,7 @@ class Main: KiteListener {
             return
         }
         KiteAuthenticator.authenticate(requestToken, this)
-        print("DO NOT EXIT THIS PROGRAM. USE THE STOP BUTTON IN YOUR IDE TO STOP THE PROGRAM.")
+        println("DO NOT EXIT THIS PROGRAM. USE THE STOP BUTTON IN YOUR IDE TO STOP THE PROGRAM.")
         Thread.currentThread().join()
     }
 

@@ -55,7 +55,7 @@ class TickerManager {
 
     fun writeToRedis(tickers: List<Tick>, gson: Gson, redisDb: RedisDb, dateFormat: SimpleDateFormat) {
         tickers.forEach {
-            val tickTimestamp = dateFormat.parse(dateFormat.format(it.tickTimestamp))
+            val tickTimestamp = dateFormat.format(it.tickTimestamp)
             val key = "${tokenMap[it.instrumentToken]}:${tickTimestamp}"
             val value = gson.toJson(it)
             redisDb.set(key, value)
@@ -64,7 +64,7 @@ class TickerManager {
     }
 
     fun writeToRedis(ticker: Tick, gson: Gson, redisDb: RedisDb, dateFormat: SimpleDateFormat) {
-        val tickTimestamp = dateFormat.parse(dateFormat.format(ticker.tickTimestamp))
+        val tickTimestamp = dateFormat.format(ticker.tickTimestamp)
         val key = "${tokenMap[ticker.instrumentToken]}:${tickTimestamp}"
         val value = gson.toJson(ticker)
         redisDb.set(key, value)

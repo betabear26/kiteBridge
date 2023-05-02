@@ -4,9 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="671ca7a0-3894-444f-a8a0-0c4cdb6aeadf" name="Changes" comment=" Changed dateformat in redis">
+    <list default="true" id="671ca7a0-3894-444f-a8a0-0c4cdb6aeadf" name="Changes" comment=" Changed parameter to 20 mins">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/Main.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/Main.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/core/database/RedisDb.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/core/database/RedisDb.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/core/engine/manager/TickerManager.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/core/engine/manager/TickerManager.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -130,7 +131,14 @@
       <option name="project" value="LOCAL" />
       <updated>1683006114904</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary=" Changed parameter to 20 mins">
+      <created>1683006193830</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1683006193830</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="UnknownFeatures">
@@ -145,7 +153,19 @@
     <MESSAGE value=" Changed to mode full" />
     <MESSAGE value=" Changed dateformat" />
     <MESSAGE value=" Changed dateformat in redis" />
-    <option name="LAST_COMMIT_MESSAGE" value=" Changed dateformat in redis" />
+    <MESSAGE value=" Changed parameter to 20 mins" />
+    <option name="LAST_COMMIT_MESSAGE" value=" Changed parameter to 20 mins" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="kotlin-line">
+          <url>file://$PROJECT_DIR$/src/main/kotlin/core/database/RedisDb.kt</url>
+          <line>59</line>
+          <option name="timeStamp" value="7" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
