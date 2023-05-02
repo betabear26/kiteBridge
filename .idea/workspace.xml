@@ -4,10 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="671ca7a0-3894-444f-a8a0-0c4cdb6aeadf" name="Changes" comment=" Changed dateformat">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    <list default="true" id="671ca7a0-3894-444f-a8a0-0c4cdb6aeadf" name="Changes" comment=" Changed dateformat in redis">
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/Main.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/Main.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/core/engine/manager/TickerManager.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/core/engine/manager/TickerManager.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/core/database/RedisDb.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/core/database/RedisDb.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -124,7 +123,14 @@
       <option name="project" value="LOCAL" />
       <updated>1683002107431</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary=" Changed dateformat in redis">
+      <created>1683006114904</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1683006114904</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="UnknownFeatures">
@@ -138,18 +144,8 @@
     <MESSAGE value="Added more logs and corrected scrip names" />
     <MESSAGE value=" Changed to mode full" />
     <MESSAGE value=" Changed dateformat" />
-    <option name="LAST_COMMIT_MESSAGE" value=" Changed dateformat" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="kotlin-line">
-          <url>file://$PROJECT_DIR$/src/main/kotlin/core/engine/manager/TickerManager.kt</url>
-          <line>69</line>
-          <option name="timeStamp" value="3" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
+    <MESSAGE value=" Changed dateformat in redis" />
+    <option name="LAST_COMMIT_MESSAGE" value=" Changed dateformat in redis" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

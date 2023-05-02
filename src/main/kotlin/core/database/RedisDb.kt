@@ -84,6 +84,6 @@ class RedisDb {
                     influxDb.getWriteKotlinApi().writePoint(point, influxDbDatabase)
                 }
             }
-        }, 60, interval, TimeUnit.MINUTES)
+        }, 20, interval, TimeUnit.MINUTES)
     }
 }

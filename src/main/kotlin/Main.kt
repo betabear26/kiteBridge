@@ -68,7 +68,7 @@ class Main: KiteListener {
     override fun onKiteConnected(user: User) {
         tickerReconnectionCount = 0
         println("Logged in as ${user.userName}")
-        redis.intervalDumpToInfluxDb(60L)
+        redis.intervalDumpToInfluxDb(20L)
         tickerManager.subscribeAll(this)
     }
 
