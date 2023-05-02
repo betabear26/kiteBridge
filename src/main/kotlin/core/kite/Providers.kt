@@ -68,7 +68,7 @@ object Providers {
             tickerProvider.setOnConnectedListener {
                 kiteListener.onTickerConnected()
                 tickerProvider.subscribe(tradingSymbol)
-                tickerProvider.setMode(tradingSymbol, KiteTicker.modeQuote)
+                tickerProvider.setMode(tradingSymbol, KiteTicker.modeFull)
             }
 
             tickerProvider.setOnDisconnectedListener {
