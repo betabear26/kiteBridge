@@ -1,5 +1,6 @@
 package core.kite
 
+import com.zerodhatech.models.Order
 import core.kite.KiteAuthenticator.getKite
 import com.zerodhatech.models.OrderParams
 import com.zerodhatech.ticker.KiteTicker
@@ -16,10 +17,9 @@ object Providers {
     }
 
     object OrderProvider {
-        fun placeOrder(orderParams: OrderParams, variety: String): String {
+        fun placeOrder(orderParams: OrderParams, variety: String): Order {
             val kiteSdk = getKite()
-            val order = kiteSdk.placeOrder(orderParams, variety)
-            return order.orderId
+            return kiteSdk.placeOrder(orderParams, variety)
         }
 
         fun createOrder(

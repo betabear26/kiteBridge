@@ -28,7 +28,7 @@ class Main: KiteListener {
         TickerManager()
     }
     private val orderManager:OrderManager by lazy {
-        OrderManager()
+        OrderManager(instrumentManager)
     }
     private val redis by lazy {
         RedisDb()
@@ -69,7 +69,7 @@ class Main: KiteListener {
         tickerReconnectionCount = 0
         println("Logged in as ${user.userName}")
         redis.intervalDumpToInfluxDb(20L)
-        tickerManager.subscribeAll(this)
+        instrumentManager.subscribeAll(this)
     }
 
     override fun onKiteDisconnected() {
@@ -87,11 +87,16 @@ class Main: KiteListener {
         if(tickerReconnectionCount < 5){
             println("Reconnecting...")
             tickerReconnectionCount++
-            tickerManager.subscribeAll(this)
+            instrumentManager.subscribeAll(this)
         }
     }
 
     override fun onOrderUpdate(it: Order?) {
+        if(it == null){
+            println("Empty order update received")
+            return
+        }
+        println("${it.orderId} for ${it.tradingSymbol} -> ${it.status}")
     }
 
     override fun onTickerArrival(it: ArrayList<Tick>?) {
@@ -99,9 +104,11 @@ class Main: KiteListener {
             println("Empty tick list received")
             return
         }
+        orderManager.onTick(it)
         it.forEach {
             println("${it.instrumentToken} -> ${it.lastTradedPrice} at ${dateFormat.format(it.tickTimestamp)}")
-            tickerManager.writeToRedis(it, gson, redis, dateFormat)
+            val key = "${it.instrumentToken}:${dateFormat.format(it.tickTimestamp)}"
+            tickerManager.writeToRedis(key, it, gson, redis)
         }
     }
 
