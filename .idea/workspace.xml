@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="671ca7a0-3894-444f-a8a0-0c4cdb6aeadf" name="Changes" comment=" Changed parameter to 20 mins">
+    <list default="true" id="671ca7a0-3894-444f-a8a0-0c4cdb6aeadf" name="Changes" comment="dateformat bug">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/Main.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/Main.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/core/engine/manager/TickerManager.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/core/engine/manager/TickerManager.kt" afterDir="false" />
@@ -138,7 +138,14 @@
       <option name="project" value="LOCAL" />
       <updated>1683006193830</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="dateformat bug">
+      <created>1683007751551</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1683007751551</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="UnknownFeatures">
@@ -154,7 +161,8 @@
     <MESSAGE value=" Changed dateformat" />
     <MESSAGE value=" Changed dateformat in redis" />
     <MESSAGE value=" Changed parameter to 20 mins" />
-    <option name="LAST_COMMIT_MESSAGE" value=" Changed parameter to 20 mins" />
+    <MESSAGE value="dateformat bug" />
+    <option name="LAST_COMMIT_MESSAGE" value="dateformat bug" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
