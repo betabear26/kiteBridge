@@ -17,8 +17,8 @@ class TickerManager {
     }
 
     val tickerMap = mutableMapOf(
-        Pair(NIFTY, "NIFTY"),
-        Pair(BANK_NIFTY, "BANKNIFTY")
+        Pair(NIFTY, "NIFTY 50"),
+        Pair(BANK_NIFTY, "NIFTY BANK")
     )
 
     val nextMonthName by lazy {
@@ -38,11 +38,13 @@ class TickerManager {
        val tokens = Providers.TokenProvider.getInstrumentTokens(
             tickerMap.values.toList()
         )
+        println("Received tokens - > $tokens}")
         tokenMap[tokens[0]] = NIFTY
         tokenMap[tokens[1]] = BANK_NIFTY
     }
 
     fun subscribeAll(listener: KiteListener){
+        println("Subscribin to ${tokenMap.keys.toList()}}")
         Providers.TickerLiveDataProvider.subscribe(
             ArrayList(tokenMap.keys.toList()),
             listener

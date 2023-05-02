@@ -99,6 +99,7 @@ object Providers {
     object TokenProvider {
 
         fun getInstrumentTokens(tradingSymbols: List<String>): List<Long> {
+            println("Requesting tokens for $tradingSymbols")
             val kiteSdk = getKite()
             val instruments = kiteSdk.instruments
 
