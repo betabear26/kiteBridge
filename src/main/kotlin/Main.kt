@@ -25,7 +25,7 @@ class Main: KiteListener {
         InstrumentManager()
     }
     private val tickerManager: TickerManager by lazy {
-        TickerManager()
+        TickerManager(instrumentManager)
     }
     private val orderManager:OrderManager by lazy {
         OrderManager(instrumentManager)
@@ -69,7 +69,7 @@ class Main: KiteListener {
         tickerReconnectionCount = 0
         println("Logged in as ${user.userName}")
         redis.intervalDumpToInfluxDb(20L)
-        instrumentManager.subscribeAll(this)
+        instrumentManager.subscribeUnderlying(this)
     }
 
     override fun onKiteDisconnected() {
@@ -87,7 +87,7 @@ class Main: KiteListener {
         if(tickerReconnectionCount < 5){
             println("Reconnecting...")
             tickerReconnectionCount++
-            instrumentManager.subscribeAll(this)
+            instrumentManager.subscribeUnderlying(this)
         }
     }
 
@@ -104,11 +104,12 @@ class Main: KiteListener {
             println("Empty tick list received")
             return
         }
-        orderManager.onTick(it)
+        //orderManager.onTick(it)
         it.forEach {
-            println("${it.instrumentToken} -> ${it.lastTradedPrice} at ${dateFormat.format(it.tickTimestamp)}")
-            val key = "${it.instrumentToken}:${dateFormat.format(it.tickTimestamp)}"
-            tickerManager.writeToRedis(key, it, gson, redis)
+            val name = instrumentManager.getInstrumentName(it.instrumentToken)
+            println("$name -> ${it.lastTradedPrice} at ${dateFormat.format(it.tickTimestamp)}")
+            val key = "$name:${dateFormat.format(it.tickTimestamp)}"
+            tickerManager.saveData(key, it, gson, redis)
         }
     }
 

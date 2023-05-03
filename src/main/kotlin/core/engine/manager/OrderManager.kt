@@ -12,7 +12,7 @@ class OrderManager(
     private val instrumentManager: InstrumentManager
 ) {
 
-    private val orderEndList = listOf<String>(
+    private val orderEndList = listOf(
         "CANCELLED",
         "COMPLETE",
         "REJECTED"

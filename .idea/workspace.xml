@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="671ca7a0-3894-444f-a8a0-0c4cdb6aeadf" name="Changes" comment="workspace">
+    <list default="true" id="671ca7a0-3894-444f-a8a0-0c4cdb6aeadf" name="Changes" comment="Added logic to place order">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/Main.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/Main.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/core/engine/manager/IntsrumentManager.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/core/engine/manager/IntsrumentManager.kt" afterDir="false" />
@@ -154,7 +154,14 @@
       <option name="project" value="LOCAL" />
       <updated>1683008004961</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="Added logic to place order">
+      <created>1683058621683</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1683058621683</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="UnknownFeatures">
@@ -172,7 +179,8 @@
     <MESSAGE value=" Changed parameter to 20 mins" />
     <MESSAGE value="dateformat bug" />
     <MESSAGE value="workspace" />
-    <option name="LAST_COMMIT_MESSAGE" value="workspace" />
+    <MESSAGE value="Added logic to place order" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added logic to place order" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
