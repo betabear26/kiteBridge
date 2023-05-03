@@ -28,7 +28,7 @@ class Main: KiteListener {
         TickerManager(instrumentManager)
     }
     private val orderManager:OrderManager by lazy {
-        OrderManager(instrumentManager)
+        OrderManager(instrumentManager, tickerManager)
     }
     private val redis by lazy {
         RedisDb()
@@ -97,6 +97,7 @@ class Main: KiteListener {
             return
         }
         println("${it.orderId} for ${it.tradingSymbol} -> ${it.status}")
+        orderManager.onOrderUpdate(it)
     }
 
     override fun onTickerArrival(it: ArrayList<Tick>?) {
@@ -104,7 +105,7 @@ class Main: KiteListener {
             println("Empty tick list received")
             return
         }
-        //orderManager.onTick(it)
+        orderManager.onTick(it)
         it.forEach {
             val name = instrumentManager.getInstrumentName(it.instrumentToken)
             println("$name -> ${it.lastTradedPrice} at ${dateFormat.format(it.tickTimestamp)}")

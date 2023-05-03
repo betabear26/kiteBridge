@@ -22,39 +22,9 @@ object Providers {
             return kiteSdk.placeOrder(orderParams, variety)
         }
 
-        fun createOrder(
-            exchange: String = "NSE",
-            tradingSymbol: String,
-            transactionType: String,
-            quantity: Int,
-            price: Double,
-            product: String = "MIS",
-            orderType: String = "MARKET",
-            validity: String = "DAY",
-            disclosedQuantity: Int?,
-            triggerPrice: Double?,
-            squareOffValue: Double?,
-            stopLossValue: Double?,
-            trailingStopLoss: Double?,
-            tag: String = "autotrader order ${Random(1000000)}"
-        ): OrderParams {
-            val orderParams = OrderParams()
-            orderParams.exchange = exchange
-            orderParams.tradingsymbol = tradingSymbol
-            orderParams.transactionType = transactionType
-            orderParams.quantity = quantity
-            orderParams.price = price
-            orderParams.product = product
-            orderParams.orderType = orderType
-            orderParams.validity = validity
-            orderParams.disclosedQuantity = disclosedQuantity
-            orderParams.triggerPrice = triggerPrice
-            orderParams.squareoff = squareOffValue
-            orderParams.stoploss = stopLossValue
-            orderParams.trailingStoploss = trailingStopLoss
-            orderParams.tag = tag
-
-            return orderParams
+        fun cancelOrder(orderId: String, variety: String): Order {
+            val kiteSdk = getKite()
+            return kiteSdk.cancelOrder(variety, orderId)
         }
     }
 

@@ -4,12 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="671ca7a0-3894-444f-a8a0-0c4cdb6aeadf" name="Changes" comment="Added logic to place order">
+    <list default="true" id="671ca7a0-3894-444f-a8a0-0c4cdb6aeadf" name="Changes" comment="Added logic to save order data">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/Main.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/Main.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/core/engine/manager/IntsrumentManager.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/core/engine/manager/IntsrumentManager.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/core/engine/manager/OrderManager.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/core/engine/manager/OrderManager.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/core/engine/manager/TickerManager.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/core/engine/manager/TickerManager.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/core/kite/Providers.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/core/kite/Providers.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -161,7 +161,14 @@
       <option name="project" value="LOCAL" />
       <updated>1683058621683</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="Added logic to save order data">
+      <created>1683086509655</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1683086509655</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="UnknownFeatures">
@@ -180,7 +187,8 @@
     <MESSAGE value="dateformat bug" />
     <MESSAGE value="workspace" />
     <MESSAGE value="Added logic to place order" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added logic to place order" />
+    <MESSAGE value="Added logic to save order data" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added logic to save order data" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

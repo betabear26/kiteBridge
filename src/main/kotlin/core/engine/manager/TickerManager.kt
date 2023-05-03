@@ -8,7 +8,7 @@ class TickerManager(
     private val instrumentManager: InstrumentManager
 ) {
 
-    private val optionDataMap: MutableMap<Long, MutableList<Double>> = mutableMapOf()
+    val optionDataMap: MutableMap<Long, MutableList<Double>> = mutableMapOf()
 
     fun updateOptionsData(tick: Tick) {
         val isOptionData = instrumentManager.niftyCallTokens.containsValue(tick.instrumentToken) ||

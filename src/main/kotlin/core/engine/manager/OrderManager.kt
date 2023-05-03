@@ -1,5 +1,6 @@
 package core.engine.manager
 
+import com.zerodhatech.kiteconnect.utils.Constants
 import com.zerodhatech.models.Order
 import com.zerodhatech.models.OrderParams
 import com.zerodhatech.models.Tick
@@ -9,7 +10,8 @@ import core.util.EnvProvider
 import java.util.ArrayList
 
 class OrderManager(
-    private val instrumentManager: InstrumentManager
+    private val instrumentManager: InstrumentManager,
+    private val tickerManager: TickerManager
 ) {
 
     private val orderEndList = listOf(
@@ -17,13 +19,6 @@ class OrderManager(
         "COMPLETE",
         "REJECTED"
     )
-
-    private val niftyEnabled = EnvProvider.getEnvVar("NIFTY_ENABLED").toBoolean()
-    private var niftyOrder: Order? = null
-    private var inNiftyTrade: Boolean = false
-    private val niftyLast60Val: MutableList<Double> = mutableListOf()
-    private var niftyMin = 0.0
-    private var niftyMax = 0.0
 
     fun onTick(it: ArrayList<Tick>) {
         val tick = it[0]
@@ -33,7 +28,30 @@ class OrderManager(
         } else tradeBankNifty(tick)
     }
 
+    private fun cancelOrder(order: Order){
+        Providers.OrderProvider.cancelOrder(order.orderId, order.orderVariety)
+    }
+
+    fun onOrderUpdate(order: Order){
+        if(order.tradingSymbol.contains("NIFTY")){
+            niftyOrderPrice = order.averagePrice.toDouble()
+        } else{
+            bankniftyOrderPrice = order.averagePrice.toDouble()
+        }
+    }
+
     /**** --------------- NIFTY ------------------ ****/
+    private val niftyEnabled = EnvProvider.getEnvVar("NIFTY_ENABLED").toBoolean()
+    private var niftyOrder: Order? = null
+    private var inNiftyTrade: Boolean = false
+    private var niftyTradedToken: Long = 0L
+    private var niftyOrderPrice: Double = 0.0 // TODO
+
+
+    private val niftyLast60Val: MutableList<Double> = mutableListOf()
+    private var niftyMin = 0.0
+    private var niftyMax = 0.0
+
     private fun tradeNifty(tick: Tick) {
         if(!niftyEnabled)return
         if(!inNiftyTrade) {
@@ -43,9 +61,13 @@ class OrderManager(
                 placeNiftyCallOrder(tick.lastTradedPrice)
             }
         } else{
-            if(niftyOrder != null && niftyOrder!!.status in orderEndList ) {
-                inNiftyTrade = false
-                niftyOrder = null
+            if(niftyOrder != null) {
+                val lastPrice: Double = tickerManager.optionDataMap[niftyTradedToken]?.last()!!
+                if (lastPrice > niftyOrderPrice + 1.7 || lastPrice < niftyOrderPrice - 1) {
+                    cancelOrder(niftyOrder!!)
+                    inNiftyTrade = false
+                    niftyTradedToken = 0
+                }
             }
         }
 
@@ -62,39 +84,42 @@ class OrderManager(
     private fun placeNiftyPutOrder(ltp: Double){
         val strike = (ltp/100).toInt() * 100
         val putInstrument = "NIFTY${instrumentManager.NEXT_EXPIRY}${strike}PE"
-        val orderParams = OrderParams()
-        orderParams.exchange = "NFO"
-        orderParams.tradingsymbol = putInstrument
-        orderParams.transactionType = "BUY"
-        orderParams.quantity = 75 // TODO
-        orderParams.orderType = "MARKET"
-        orderParams.product = "NRML"
-        orderParams.validity = "IOC"
-        orderParams.squareoff = 100.00 // TODO,
-        orderParams.stoploss = 100.00 // TODO,
-        orderParams.trailingStoploss = 100.00// TODO,
-        orderParams.tag = "Nitfy Put Order $ltp"
+        val instrumentToken = instrumentManager.niftyPutTokens[putInstrument] ?: return
+        val lastPrice = tickerManager.optionDataMap[instrumentToken]?.last() ?: return
 
+        val orderParams = OrderParams()
+        orderParams.exchange = Constants.EXCHANGE_NFO
+        orderParams.tradingsymbol = putInstrument
+        orderParams.transactionType = Constants.TRANSACTION_TYPE_BUY
+        orderParams.quantity = 200
+        orderParams.orderType = Constants.ORDER_TYPE_MARKET
+        orderParams.product = Constants.PRODUCT_NRML
+        orderParams.validity = Constants.VALIDITY_IOC
+        orderParams.tag = "Nitfy Put Order $lastPrice"
         niftyOrder = Providers.OrderProvider.placeOrder(orderParams, "regular")
+        inNiftyTrade = true
+        niftyTradedToken = instrumentToken
     }
 
     private fun placeNiftyCallOrder(ltp: Double){
         val strike = ((ltp/100) + 1).toInt() * 100
         val callInstrument = "NIFTY${instrumentManager.NEXT_EXPIRY}${strike}CE"
-        val orderParams = OrderParams()
-        orderParams.exchange = "NFO"
-        orderParams.tradingsymbol = callInstrument
-        orderParams.transactionType = "BUY"
-        orderParams.quantity = 75 // TODO
-        orderParams.orderType = "MARKET"
-        orderParams.product = "NRML"
-        orderParams.validity = "IOC"
-        orderParams.squareoff = 100.00 // TODO,
-        orderParams.stoploss = 100.00 // TODO,
-        orderParams.trailingStoploss = 100.00// TODO,
-        orderParams.tag = "Nitfy Call Order $ltp"
+        val instrumentToken = instrumentManager.niftyPutTokens[callInstrument] ?: return
+        val lastPrice = tickerManager.optionDataMap[instrumentToken]?.last() ?: return
 
+
+        val orderParams = OrderParams()
+        orderParams.exchange = Constants.EXCHANGE_NFO
+        orderParams.tradingsymbol = callInstrument
+        orderParams.transactionType = Constants.TRANSACTION_TYPE_BUY
+        orderParams.quantity = 200
+        orderParams.orderType = Constants.ORDER_TYPE_MARKET
+        orderParams.product = Constants.PRODUCT_NRML
+        orderParams.validity = Constants.VALIDITY_IOC
+        orderParams.tag = "Nitfy Call Order $lastPrice"
         niftyOrder = Providers.OrderProvider.placeOrder(orderParams, "regular")
+        inNiftyTrade = true
+        niftyTradedToken = instrumentToken
     }
 
 
@@ -102,6 +127,9 @@ class OrderManager(
     private val bankniftyEnabled = EnvProvider.getEnvVar("BANKNIFTY_ENABLED").toBoolean()
     private var bankniftyOrder: Order? = null
     private var inBankNiftyTrade: Boolean = false
+    private var bankniftyTradedToken: Long = 0L
+    private var bankniftyOrderPrice: Double = 0.0 // TODO
+
     private val bankniftyLast60Val: MutableList<Double> = mutableListOf()
     private var bankniftyMin = 0.0
     private var bankniftyMax = 0.0
@@ -114,9 +142,13 @@ class OrderManager(
                 placeBankNiftyCallOrder(tick.lastTradedPrice)
             }
         } else{
-            if(bankniftyOrder != null && bankniftyOrder!!.status in orderEndList ) {
-                inBankNiftyTrade = false
-                bankniftyOrder = null
+            if(bankniftyOrder != null) {
+                val lastPrice: Double = tickerManager.optionDataMap[bankniftyTradedToken]?.last()!!
+                if (lastPrice > bankniftyOrderPrice + 1.7 || lastPrice < bankniftyOrderPrice - 1) {
+                    cancelOrder(bankniftyOrder!!)
+                    inBankNiftyTrade = false
+                    bankniftyTradedToken = 0
+                }
             }
         }
 
@@ -134,40 +166,41 @@ class OrderManager(
     private fun placeBankNiftyPutOrder(ltp: Double){
         val strike = (ltp/100).toInt() * 100
         val putInstrument = "BANKNIFTY${instrumentManager.NEXT_EXPIRY}${strike}PE"
+        val instrumentToken = instrumentManager.bankniftyPutTokens[putInstrument] ?: return
+        val lastPrice = tickerManager.optionDataMap[instrumentToken]?.last() ?: return
 
         val orderParams = OrderParams()
-        orderParams.exchange = "NFO"
+        orderParams.exchange = Constants.EXCHANGE_NFO
         orderParams.tradingsymbol = putInstrument
-        orderParams.transactionType = "BUY"
-        orderParams.quantity = 75 // TODO
-        orderParams.orderType = "MARKET"
-        orderParams.product = "NRML"
-        orderParams.validity = "IOC"
-        orderParams.squareoff = 100.00 // TODO,
-        orderParams.stoploss = 100.00 // TODO,
-        orderParams.trailingStoploss = 100.00// TODO,
+        orderParams.transactionType = Constants.TRANSACTION_TYPE_BUY
+        orderParams.quantity = 200
+        orderParams.orderType = Constants.ORDER_TYPE_MARKET
+        orderParams.product = Constants.PRODUCT_NRML
+        orderParams.validity = Constants.VALIDITY_IOC
         orderParams.tag = "Bank Nitfy Put Order $ltp"
-
-        niftyOrder = Providers.OrderProvider.placeOrder(orderParams, "regular")
+        bankniftyOrder = Providers.OrderProvider.placeOrder(orderParams, "regular")
+        inBankNiftyTrade = true
+        bankniftyTradedToken = instrumentToken
     }
 
     private fun placeBankNiftyCallOrder(ltp: Double){
         val strike = ((ltp/100) + 1).toInt() * 100
         val callInstrument = "BANKNIFTY${instrumentManager.NEXT_EXPIRY}${strike}CE"
+        val instrumentToken = instrumentManager.bankniftyPutTokens[callInstrument] ?: return
+        val lastPrice = tickerManager.optionDataMap[instrumentToken]?.last() ?: return
 
         val orderParams = OrderParams()
-        orderParams.exchange = "NFO"
+        orderParams.exchange = Constants.EXCHANGE_NFO
         orderParams.tradingsymbol = callInstrument
-        orderParams.transactionType = "BUY"
-        orderParams.quantity = 75 // TODO
-        orderParams.orderType = "MARKET"
-        orderParams.product = "NRML"
-        orderParams.validity = "IOC"
-        orderParams.squareoff = 100.00 // TODO,
-        orderParams.stoploss = 100.00 // TODO,
-        orderParams.trailingStoploss = 100.00// TODO,
+        orderParams.transactionType = Constants.TRANSACTION_TYPE_BUY
+        orderParams.quantity = 200
+        orderParams.orderType = Constants.ORDER_TYPE_MARKET
+        orderParams.product = Constants.PRODUCT_NRML
+        orderParams.validity = Constants.VALIDITY_IOC
         orderParams.tag = "Bank Nitfy call Order $ltp"
-        niftyOrder = Providers.OrderProvider.placeOrder(orderParams, "regular")
+        bankniftyOrder = Providers.OrderProvider.placeOrder(orderParams, "regular")
+        inBankNiftyTrade = true
+        bankniftyTradedToken = instrumentToken
     }
 
 }
