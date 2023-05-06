@@ -10,7 +10,7 @@ class TickerManager(
 
     val optionDataMap: MutableMap<Long, MutableList<Double>> = mutableMapOf()
 
-    fun updateOptionsData(tick: Tick) {
+    private fun updateOptionsData(tick: Tick) {
         val isOptionData = instrumentManager.niftyCallTokens.containsValue(tick.instrumentToken) ||
             instrumentManager.niftyPutTokens.containsValue(tick.instrumentToken) ||
             instrumentManager.bankniftyCallTokens.containsValue(tick.instrumentToken) ||
@@ -30,10 +30,10 @@ class TickerManager(
                  gson: Gson,
                  redisDb: RedisDb
     ) {
+        updateOptionsData(ticker)
         val value = gson.toJson(ticker)
         redisDb.set(key, value)
-        println("Writing to redis: $key -> ${ticker.lastTradedPrice}")
-        updateOptionsData(ticker)
+        //println("Writing to redis: $key -> ${ticker.lastTradedPrice}")
     }
 
 }

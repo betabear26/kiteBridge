@@ -4,12 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="671ca7a0-3894-444f-a8a0-0c4cdb6aeadf" name="Changes" comment="Added logic to save order data">
+    <list default="true" id="671ca7a0-3894-444f-a8a0-0c4cdb6aeadf" name="Changes" comment="Order placement api done">
+      <change afterPath="$PROJECT_DIR$/log.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/core/util/Logger.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/core/util/Utility.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/Main.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/Main.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/core/engine/manager/OrderManager.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/core/engine/manager/OrderManager.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/core/engine/manager/TickerManager.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/core/engine/manager/TickerManager.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/core/kite/Providers.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/core/kite/Providers.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -19,10 +21,10 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Kotlin Object" />
         <option value="Class" />
         <option value="Kotlin Class" />
         <option value="Kotlin Data Class" />
+        <option value="Kotlin Object" />
       </list>
     </option>
   </component>
@@ -168,7 +170,14 @@
       <option name="project" value="LOCAL" />
       <updated>1683086509655</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="Order placement api done">
+      <created>1683141447963</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1683141447963</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="UnknownFeatures">
@@ -188,7 +197,8 @@
     <MESSAGE value="workspace" />
     <MESSAGE value="Added logic to place order" />
     <MESSAGE value="Added logic to save order data" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added logic to save order data" />
+    <MESSAGE value="Order placement api done" />
+    <option name="LAST_COMMIT_MESSAGE" value="Order placement api done" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

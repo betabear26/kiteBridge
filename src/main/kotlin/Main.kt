@@ -57,7 +57,7 @@ class Main: KiteListener {
             return
         }
         KiteAuthenticator.authenticate(requestToken, this)
-        println("DO NOT EXIT THIS PROGRAM. USE THE STOP BUTTON IN YOUR IDE TO STOP THE PROGRAM.")
+        println("DO NOT EXIT THIS PROGRAM.")
         Thread.currentThread().join()
     }
 
@@ -97,18 +97,18 @@ class Main: KiteListener {
             return
         }
         println("${it.orderId} for ${it.tradingSymbol} -> ${it.status}")
-        orderManager.onOrderUpdate(it)
+        //orderManager.onOrderUpdate(it)
     }
 
     override fun onTickerArrival(it: ArrayList<Tick>?) {
         if(it.isNullOrEmpty()){
-            println("Empty tick list received")
+            //println("Empty tick list received")
             return
         }
         orderManager.onTick(it)
         it.forEach {
             val name = instrumentManager.getInstrumentName(it.instrumentToken)
-            println("$name -> ${it.lastTradedPrice} at ${dateFormat.format(it.tickTimestamp)}")
+            //println("$name -> ${it.lastTradedPrice} at ${dateFormat.format(it.tickTimestamp)}")
             val key = "$name:${dateFormat.format(it.tickTimestamp)}"
             tickerManager.saveData(key, it, gson, redis)
         }

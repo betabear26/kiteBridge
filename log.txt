@@ -1,0 +1,38 @@
+Nifty Order Cancelled diff is -1.0999999999999943
+Bank Nifty Order Cancelled diff is -1.6999999999999318
+Nifty Order Cancelled diff is 2.6499999999999773
+Nifty Order Cancelled diff is -1.1999999999999886
+Bank Nifty Order Cancelled diff is 6.399999999999977
+Bank Nifty Order Cancelled diff is -4.350000000000023
+Bank Nifty Order Cancelled diff is -1.1499999999999773
+Nifty Order Cancelled diff is -1.0999999999999943
+Bank Nifty Order Cancelled diff is 5.600000000000023
+Bank Nifty Order Cancelled diff is -1.5500000000000682
+Nifty Order Cancelled diff is -1.4499999999999886
+Bank Nifty Order Cancelled diff is -1.1000000000000227
+Nifty Order Cancelled diff is 2.3999999999999773
+Nifty Order Cancelled diff is -1.5
+Bank Nifty Order Cancelled diff is -1.4500000000000455
+Nifty Order Cancelled diff is 2.25
+Nifty Order Cancelled diff is -1.1500000000000057
+Bank Nifty Order Cancelled diff is -1.599999999999966
+Nifty Order Cancelled diff is -1.0999999999999943
+Bank Nifty Order Cancelled diff is 2.2000000000000455
+Bank Nifty Order Cancelled diff is 2.949999999999932
+Nifty Order Cancelled diff is 2.3499999999999943
+Bank Nifty Order Cancelled diff is 2.0499999999999545
+Bank Nifty Order Cancelled diff is -5.949999999999989
+Nifty Order Cancelled diff is -5.049999999999983
+Bank Nifty Order Cancelled diff is 2.5
+Bank Nifty Order Cancelled diff is 3.0
+Bank Nifty Order Cancelled diff is -5.300000000000011
+Bank Nifty Order Cancelled diff is 2.25
+Bank Nifty Order Cancelled diff is 3.6499999999999773
+Bank Nifty Order Cancelled diff is 3.6000000000000227
+Bank Nifty Order Cancelled diff is 3.5500000000000114
+Bank Nifty Order Cancelled diff is -6.0499999999999545
+Nifty Order Cancelled diff is -5.050000000000011
+Bank Nifty Order Cancelled diff is -6.149999999999977
+Bank Nifty Order Cancelled diff is -5.899999999999977
+Bank Nifty Order Cancelled diff is 2.6499999999999773
+Bank Nifty Order Cancelled diff is 2.4500000000000455

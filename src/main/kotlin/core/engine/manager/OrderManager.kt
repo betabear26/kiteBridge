@@ -4,10 +4,14 @@ import com.zerodhatech.kiteconnect.utils.Constants
 import com.zerodhatech.models.Order
 import com.zerodhatech.models.OrderParams
 import com.zerodhatech.models.Tick
+import core.engine.manager.InstrumentManager.Companion.BANK_NIFTY
 import core.engine.manager.InstrumentManager.Companion.NIFTY
 import core.kite.Providers
 import core.util.EnvProvider
+import core.util.Logger
+import core.util.Utility
 import java.util.ArrayList
+import java.util.Calendar
 
 class OrderManager(
     private val instrumentManager: InstrumentManager,
@@ -25,7 +29,7 @@ class OrderManager(
         val instrument = instrumentManager.underlyingTokenMap[tick.instrumentToken]
         if (instrument == NIFTY) {
             tradeNifty(tick)
-        } else tradeBankNifty(tick)
+        } else if(instrument == BANK_NIFTY) tradeBankNifty(tick)
     }
 
     private fun cancelOrder(order: Order){
@@ -33,10 +37,10 @@ class OrderManager(
     }
 
     fun onOrderUpdate(order: Order){
-        if(order.tradingSymbol.contains("NIFTY")){
-            niftyOrderPrice = order.averagePrice.toDouble()
-        } else{
+        if(order.tradingSymbol.contains("BANKNIFTY")){
             bankniftyOrderPrice = order.averagePrice.toDouble()
+        } else{
+            niftyOrderPrice = order.averagePrice.toDouble()
         }
     }
 
@@ -63,8 +67,10 @@ class OrderManager(
         } else{
             if(niftyOrder != null) {
                 val lastPrice: Double = tickerManager.optionDataMap[niftyTradedToken]?.last()!!
-                if (lastPrice > niftyOrderPrice + 1.7 || lastPrice < niftyOrderPrice - 1) {
-                    cancelOrder(niftyOrder!!)
+                if (lastPrice > niftyOrderPrice + 2 || lastPrice < niftyOrderPrice - 5) {
+                    //cancelOrder(niftyOrder!!)
+                    Logger.log("Nifty Order Cancelled diff is ${lastPrice - niftyOrderPrice}  at ${Utility.getCurrentTime()}")
+                    println("Nifty Order Cancelled diff is ${lastPrice - niftyOrderPrice} at ${Utility.getCurrentTime()}")
                     inNiftyTrade = false
                     niftyTradedToken = 0
                 }
@@ -96,7 +102,12 @@ class OrderManager(
         orderParams.product = Constants.PRODUCT_NRML
         orderParams.validity = Constants.VALIDITY_IOC
         orderParams.tag = "Nitfy Put Order $lastPrice"
-        niftyOrder = Providers.OrderProvider.placeOrder(orderParams, "regular")
+        //niftyOrder = Providers.OrderProvider.placeOrder(orderParams, "regular")
+        // stub
+        niftyOrder = Order()
+        niftyOrderPrice = lastPrice
+        println("Nifty Put Order Placed at $lastPrice on $putInstrument")
+        // end stub
         inNiftyTrade = true
         niftyTradedToken = instrumentToken
     }
@@ -117,7 +128,14 @@ class OrderManager(
         orderParams.product = Constants.PRODUCT_NRML
         orderParams.validity = Constants.VALIDITY_IOC
         orderParams.tag = "Nitfy Call Order $lastPrice"
-        niftyOrder = Providers.OrderProvider.placeOrder(orderParams, "regular")
+        //niftyOrder = Providers.OrderProvider.placeOrder(orderParams, "regular")
+
+        //stub
+        niftyOrder = Order()
+        niftyOrderPrice = lastPrice
+        println("Nifty Call Order Placed at $lastPrice on $callInstrument")
+        // end stub
+
         inNiftyTrade = true
         niftyTradedToken = instrumentToken
     }
@@ -144,8 +162,10 @@ class OrderManager(
         } else{
             if(bankniftyOrder != null) {
                 val lastPrice: Double = tickerManager.optionDataMap[bankniftyTradedToken]?.last()!!
-                if (lastPrice > bankniftyOrderPrice + 1.7 || lastPrice < bankniftyOrderPrice - 1) {
-                    cancelOrder(bankniftyOrder!!)
+                if (lastPrice > bankniftyOrderPrice + 2 || lastPrice < bankniftyOrderPrice - 5) {
+                    //cancelOrder(bankniftyOrder!!)
+                    Logger.log("Bank Nifty Order Cancelled diff is ${lastPrice - bankniftyOrderPrice} at ${Utility.getCurrentTime()}")
+                    println("Bank Nifty Order Cancelled diff is ${lastPrice - bankniftyOrderPrice}  at ${Utility.getCurrentTime()}")
                     inBankNiftyTrade = false
                     bankniftyTradedToken = 0
                 }
@@ -178,7 +198,14 @@ class OrderManager(
         orderParams.product = Constants.PRODUCT_NRML
         orderParams.validity = Constants.VALIDITY_IOC
         orderParams.tag = "Bank Nitfy Put Order $ltp"
-        bankniftyOrder = Providers.OrderProvider.placeOrder(orderParams, "regular")
+        //bankniftyOrder = Providers.OrderProvider.placeOrder(orderParams, "regular")
+
+        // stub
+        bankniftyOrder = Order()
+        bankniftyOrderPrice = lastPrice
+        println("Bank Nifty Put Order Placed at $lastPrice on $putInstrument")
+        // end stub
+
         inBankNiftyTrade = true
         bankniftyTradedToken = instrumentToken
     }
@@ -198,7 +225,14 @@ class OrderManager(
         orderParams.product = Constants.PRODUCT_NRML
         orderParams.validity = Constants.VALIDITY_IOC
         orderParams.tag = "Bank Nitfy call Order $ltp"
-        bankniftyOrder = Providers.OrderProvider.placeOrder(orderParams, "regular")
+        //bankniftyOrder = Providers.OrderProvider.placeOrder(orderParams, "regular")
+
+        // stub
+        bankniftyOrder = Order()
+        bankniftyOrderPrice = lastPrice
+        println("Bank Nifty Call Order Placed at $lastPrice on $callInstrument")
+        // end stub
+
         inBankNiftyTrade = true
         bankniftyTradedToken = instrumentToken
     }
